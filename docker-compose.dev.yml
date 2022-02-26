@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  roach:
+    image: cockroachdb/cockroach:v20.2.18
+    hostname: roach
+    ports:
+      - 8080:8080
+      - 26257:26257
+    environment:
+      COCKROACH_DATABASE: eurus_customer 
+      COCKROACH_USER: roach
+      COCKROACH_PASSWORD: s3cr3t
+    volumes:
+      - roach_data:/cockroach/cockroach-data
+    command: "start-single-node --insecure"
+
+  consul:
+    image: consul:1.9.14
+    command: consul agent -dev -log-level=warn -ui -client=0.0.0.0
+    hostname: consul
+    container_name: consul
+    ports:
+      - "8500:8500"
+
+volumes:
+  roach_data:

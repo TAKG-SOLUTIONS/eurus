@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  customers:
+    image: ${DOCKER_REGISTRY-}customers:0.1
+    build:
+      context: .
+      dockerfile: gateway/src/Eurus.Customer.Api/Dockerfile
+    container_name: customers
+  
+  
+  api.gateway:
+    image: ${DOCKER_REGISTRY-}apigateway:0.1
+    build:
+      context: .
+      dockerfile: gateway/src/Eurus.Gateway/Dockerfile
+    container_name: apigateway
+      
+  consul:
+    image: consul:1.9.14
+    command: consul agent -dev -log-level=warn -ui -client=0.0.0.0
+    hostname: consul
+    container_name: consul

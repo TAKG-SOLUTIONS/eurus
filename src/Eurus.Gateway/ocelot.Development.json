@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/ocelot.json",
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "UpstreamPathTemplate": "/api/customer/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "DELETE" ],
+      "ServiceName": "customer-v1",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+    }
+  ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Scheme": "http",
+      "Host": "localhost",
+      "Port": 8500,
+      "Type": "Consul"
+    }
+  }
+}
